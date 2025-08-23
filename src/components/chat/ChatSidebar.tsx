@@ -87,7 +87,7 @@ export const ChatSidebar = ({
   return (
     <div
       className={cn(
-        "w-64 border-r bg-sidebar flex flex-col absolute md:relative z-40 h-full transition-transform duration-200 ease-in-out",
+        "w-72 border-r bg-sidebar flex flex-col absolute md:relative z-40 h-full transition-transform duration-200 ease-in-out",
         !isSidebarOpen && "-translate-x-full md:translate-x-0"
       )}
     >
@@ -113,7 +113,7 @@ export const ChatSidebar = ({
               key={session.id}
               onClick={() => onSessionSelect(session.id)}
               className={cn(
-                "w-full text-left px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors group",
+                "w-72 text-left px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors group",
                 "flex items-center gap-2 text-sm relative cursor-pointer",
                 session.id === currentSessionId && "bg-sidebar-accent"
               )}
