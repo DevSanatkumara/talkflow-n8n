@@ -3,10 +3,12 @@ import { ChatMessages } from "@/components/chat/ChatMessages";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { ChatSidebar } from "@/components/chat/ChatSidebar";
 import { ChatSession } from "@/types/chat";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Menu } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SourcePanel } from "@/components/chat/SourcePanel";
+import { fetchWithTimeout, FETCH_TIMEOUT } from "@/utils/fetchWithTimeout";
 
 interface ChatLayoutProps {
   sessions: ChatSession[];
@@ -37,6 +39,14 @@ export const ChatLayout = ({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isMobile = useIsMobile();
   const { toast } = useToast();
+
+  // Source panel state
+  const [isSourceOpen, setIsSourceOpen] = useState(false);
+  const [sourceLoading, setSourceLoading] = useState(false);
+  const [sourceContent, setSourceContent] = useState<string | null>(null);
+  const [sourceTitle, setSourceTitle] = useState<string>("Source");
+  const [sourceTargetText, setSourceTargetText] = useState<string | null>(null);
+  const sourceCacheRef = useRef<Map<string, string>>(new Map());
   
   const currentSession = sessions.find(s => s.id === currentSessionId);
 
@@ -75,14 +85,57 @@ export const ChatLayout = ({
     }
   }, [isMobile, onSessionSelect]);
 
+  const handleSourceLinkClick = useCallback(async ({ href, alias }: { href: string; alias?: string }) => {
+    try {
+      const url = new URL(href, window.location.href);
+      const targetText = url.searchParams.get('q');
+      // Keep all params except q (q is only for frontend highlight logic)
+      if (url.searchParams.has('q')) {
+        url.searchParams.delete('q');
+      }
+      const fetchUrl = url.toString();
+
+      // Derive a readable title
+      const derivedTitle = alias || decodeURIComponent((url.pathname.split('/').pop() || 'Source'));
+      setSourceTitle(derivedTitle);
+      setSourceTargetText(targetText);
+      setIsSourceOpen(true);
+      setSourceLoading(true);
+
+      // Serve from cache if available
+      const cached = sourceCacheRef.current.get(fetchUrl);
+      if (cached) {
+        setSourceContent(cached);
+        setSourceLoading(false);
+        return;
+      }
+
+      const response = await fetchWithTimeout(fetchUrl, { method: 'GET' }, FETCH_TIMEOUT);
+      const text = await response.text();
+      sourceCacheRef.current.set(fetchUrl, text);
+      setSourceContent(text);
+    } catch (err) {
+      console.error('Failed to load source:', err);
+      setSourceContent(null);
+      toast({
+        description: "Не удалось загрузить источник",
+        variant: "destructive",
+      });
+    } finally {
+      setSourceLoading(false);
+    }
+  }, [toast]);
+
   return (
     <div className="flex h-[100dvh] relative">
       {isMobile && (
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-background border"
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-5 h-5" aria-hidden="true" />
         </button>
       )}
 
@@ -101,7 +154,7 @@ export const ChatLayout = ({
         {currentSession && (
           <>
             <div className="flex-1 min-h-0">
-              <ChatMessages messages={currentSession.messages} isTyping={isTyping} />
+              <ChatMessages messages={currentSession.messages} isTyping={isTyping} onSourceLinkClick={handleSourceLinkClick} />
             </div>
             <div className="w-full">
               <ChatInput
@@ -115,6 +168,15 @@ export const ChatLayout = ({
           </>
         )}
       </div>
+
+      <SourcePanel
+        open={isSourceOpen}
+        onOpenChange={setIsSourceOpen}
+        title={sourceTitle}
+        loading={sourceLoading}
+        content={sourceContent || ''}
+        targetText={sourceTargetText || null}
+      />
 
       {isMobile && isSidebarOpen && (
         <div

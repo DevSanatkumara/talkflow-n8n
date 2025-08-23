@@ -14,9 +14,10 @@ import {
 
 interface ChatMessageProps {
   message: Message;
+  onSourceLinkClick?: (payload: { href: string; alias?: string }) => void;
 }
 
-export const ChatMessage = ({ message }: ChatMessageProps) => {
+export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) => {
   const isAssistant = message.role === 'assistant';
   const { toast } = useToast();
   const formattedTime = format(new Date(message.timestamp), 'MMM d, yyyy h:mm a');
@@ -44,6 +45,30 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         variant: "destructive",
         duration: 2000,
       });
+    }
+  };
+
+  const handleMarkdownClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    const anchor = target.closest('a') as HTMLAnchorElement | null;
+    if (!anchor) return;
+
+    const href = anchor.getAttribute('href') || '';
+    if (!href) return;
+
+    // Intercept only source links that carry ?q= (text to highlight)
+    try {
+      const url = new URL(href);
+      if (url.searchParams.has('q') && onSourceLinkClick) {
+        e.preventDefault();
+        onSourceLinkClick({
+          href,
+          alias: anchor.textContent?.trim() || undefined,
+        });
+      }
+    } catch {
+      // Invalid/relative URL — let the browser handle it normally
     }
   };
 
@@ -101,7 +126,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
             </div>
           )}
           <div className="overflow-x-auto">
-            <div className="markdown-content break-words">
+            <div className="markdown-content break-words" onClick={handleMarkdownClick}>
               <MarkdownRenderer content={message.content} />
             </div>
           </div>

@@ -1,6 +1,7 @@
 
 window.env = {
-  VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook/21fd4d05-606d-4975-82df-5d0a3a39c2f5",
+  // VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook/21fd4d05-606d-4975-82df-5d0a3a39c2f5",
+  VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook-test/21fd4d05-606d-4975-82df-5d0a3a39c2f5",
   VITE_WELCOME_MESSAGE: "Я — Вивека, Ваш духовный помощник и хранитель знаний по лекциям Гуру. Служу во благо Дхармы! Ом шанти 🙏🏻",
   VITE_SITE_TITLE: "Вестник Дхармы",
   VITE_ASSISTANT_NAME: "Вивека"

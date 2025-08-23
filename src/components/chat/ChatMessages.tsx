@@ -8,9 +8,10 @@ import { Loader2 } from "lucide-react";
 interface ChatMessagesProps {
   messages: Message[];
   isTyping?: boolean;
+  onSourceLinkClick?: (payload: { href: string; alias?: string }) => void;
 }
 
-export const ChatMessages = ({ messages, isTyping = false }: ChatMessagesProps) => {
+export const ChatMessages = ({ messages, isTyping = false, onSourceLinkClick }: ChatMessagesProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -42,7 +43,7 @@ export const ChatMessages = ({ messages, isTyping = false }: ChatMessagesProps) 
       <div className="container max-w-3xl mx-auto p-4">
         <div className="max-w-[900px] mx-auto space-y-12">
           {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
+            <ChatMessage key={message.id} message={message} onSourceLinkClick={onSourceLinkClick} />
           ))}
           {isTyping && (
             <div className="flex items-center space-x-2 text-muted-foreground">
