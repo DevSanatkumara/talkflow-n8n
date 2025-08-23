@@ -1,7 +1,7 @@
 
 import { Message } from '@/types/chat';
 import { cn } from '@/lib/utils';
-import { Copy, Bot } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -21,7 +21,7 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
   const isAssistant = message.role === 'assistant';
   const { toast } = useToast();
   const formattedTime = format(new Date(message.timestamp), 'MMM d, yyyy h:mm a');
-  const assistantName = window.env?.VITE_ASSISTANT_NAME || import.meta.env.VITE_ASSISTANT_NAME || "Lovable";
+  const assistantName = window.env?.VITE_ASSISTANT_NAME || import.meta.env.VITE_ASSISTANT_NAME || "Viveka";
 
   const handleCopy = async () => {
     try {
@@ -97,7 +97,7 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
         {isAssistant && (
           <div className="flex items-center gap-2 mb-2">
             <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
-              <Bot className="w-4 h-4 text-white" />
+              <span className="text-white text-sm font-bold">ॐ</span>
             </div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               {assistantName}
