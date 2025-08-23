@@ -163,3 +163,41 @@
     font-size: 0.9em !important;
   }
 }
+
+/* Markdown links styling */
+.markdown-content .markdown-link {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-color: #93c5fd;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dark .markdown-content .markdown-link {
+  color: #60a5fa;
+  text-decoration-color: #3b82f6;
+}
+
+.markdown-content .markdown-link:hover {
+  color: #1e40af;
+  text-decoration-color: #3b82f6;
+  text-decoration-thickness: 2px;
+  background-color: #eff6ff;
+  padding: 2px 4px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.dark .markdown-content .markdown-link:hover {
+  color: #93c5fd;
+  text-decoration-color: #93c5fd;
+  background-color: rgba(30, 58, 138, 0.2);
+}
+
+.markdown-content .markdown-link:active {
+  transform: translateY(0);
+}

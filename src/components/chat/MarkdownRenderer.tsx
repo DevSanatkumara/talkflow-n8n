@@ -41,6 +41,20 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) =
     pre({ children }) {
       return <>{children}</>;
     },
+    // Custom link component with styling
+    a({ href, children, ...props }) {
+      return (
+        <a
+          href={href}
+          className="markdown-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          {...props}
+        >
+          {children}
+        </a>
+      );
+    },
     // Custom components for math rendering
     // @ts-ignore - math components are added by remark-math but not typed
     math: ({ value }) => <LaTeXBlock content={value} />,
