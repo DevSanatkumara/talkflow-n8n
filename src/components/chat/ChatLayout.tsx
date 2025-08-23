@@ -105,8 +105,12 @@ export const ChatLayout = ({
       // Serve from cache if available
       const cached = sourceCacheRef.current.get(fetchUrl);
       if (cached) {
-        setSourceContent(cached);
-        setSourceLoading(false);
+        // Debounce to ensure re-render, forcing useEffect to re-run
+        setSourceContent(null);
+        setTimeout(() => {
+          setSourceContent(cached);
+          setSourceLoading(false);
+        }, 0);
         return;
       }
 
