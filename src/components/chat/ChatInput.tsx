@@ -124,7 +124,7 @@ export const ChatInput = ({
         )}
         <div className="relative">
           <Textarea
-            placeholder="Type a message or paste an image..."
+            placeholder="Введите сообщение..."
             value={input}
             onChange={(e) => onInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -140,16 +140,16 @@ export const ChatInput = ({
               overflowY: input ? 'auto' : 'hidden'
             }}
           />
-          <div className="absolute left-3 bottom-4">
+          {/* <div className="absolute left-3 bottom-4">
             {onImageSelect && (
               <ImageUpload 
                 onImageSelect={handleImageSelection}
                 disabled={isLoading}
               />
             )}
-          </div>
+          </div> */}
           <div className="absolute right-3 bottom-4 flex items-center gap-2">
-            <Button 
+            {/* <Button 
               type="button" 
               size="icon" 
               variant="ghost"
@@ -158,7 +158,7 @@ export const ChatInput = ({
               disabled={isLoading}
             >
               <Mic className="h-4 w-4" />
-            </Button>
+            </Button> */}
             <Button 
               type="submit" 
               size="icon"

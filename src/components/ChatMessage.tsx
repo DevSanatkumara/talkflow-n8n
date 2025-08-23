@@ -143,7 +143,7 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
               onClick={handleCopy}
             >
               <Copy className="mr-2 h-4 w-4" />
-              Copy response
+              Копировать
             </Button>
           )}
         </div>

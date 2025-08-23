@@ -37,7 +37,7 @@ export const ChatSidebar = ({
 
   const getFirstMessage = (messages: ChatSession["messages"]) => {
     const userMessage = messages.find(m => m.role === "user");
-    return userMessage ? userMessage.content : "New Chat";
+    return userMessage ? userMessage.content : "Новый чат";
   };
 
   const handleDelete = (e: React.MouseEvent, sessionId: string) => {
@@ -45,23 +45,23 @@ export const ChatSidebar = ({
     const session = sessions.find(s => s.id === sessionId);
     
     if (session?.favorite) {
-      toast.error("Cannot delete a favorite chat");
+      toast.error("Не могу удалить избранный чат");
       return;
     }
     
     if (sessions.length === 1) {
-      toast.error("Cannot delete the last chat session");
+      toast.error("Не могу удалить единственный чат");
       return;
     }
     onDeleteSession(sessionId);
-    toast.success("Chat deleted successfully");
+    toast.success("Чат успешно удален");
   };
 
   const handleToggleFavorite = (e: React.MouseEvent, sessionId: string) => {
     e.stopPropagation();
     onToggleFavorite(sessionId);
     const session = sessions.find(s => s.id === sessionId);
-    toast.success(session?.favorite ? "Chat removed from favorites" : "Chat added to favorites");
+    toast.success(session?.favorite ? "Чат удален из избранных" : "Чат добавлен в избранные");
   };
 
   const startEditing = (e: React.MouseEvent, session: ChatSession) => {
@@ -75,7 +75,7 @@ export const ChatSidebar = ({
     if (editingSessionId && editingName.trim()) {
       onRenameSession(editingSessionId, editingName.trim());
       setEditingSessionId(null);
-      toast.success("Chat renamed successfully");
+      toast.success("Чат успешно переименован");
     }
   };
 
@@ -92,17 +92,17 @@ export const ChatSidebar = ({
       )}
     >
       <div className="p-4 border-b flex flex-col gap-4">
-        <Button 
+        {/* <Button 
           onClick={() => navigate('/playground')} 
           className="w-full flex items-center gap-2"
           variant="outline"
         >
           <Code className="w-4 h-4" />
           Code Playground
-        </Button>
+        </Button> */}
         <Button onClick={onNewChat} className="w-full flex items-center gap-2">
           <PlusCircle className="w-4 h-4" />
-          New Chat
+           Новый чат
         </Button>
         <ThemeToggle />
       </div>
