@@ -74,7 +74,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="p-0 w-[92vw] sm:w-[540px] md:w-[640px]">
+      <SheetContent side="right" className="p-0 w-[92vw] sm:w-[540px] md:w-[800px]">
         <SheetHeader className="p-4 border-b">
           <SheetTitle className="truncate" title={title}>
             {title}
