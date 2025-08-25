@@ -48,7 +48,7 @@ export const ChatMessages = ({ messages, isTyping = false, onSourceLinkClick }: 
           {isTyping && (
             <div className="flex items-center space-x-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Responding...</span>
+              <span>Исследую Ваш вопрос...</span>
             </div>
           )}
           <div ref={messagesEndRef} className="h-4" />
