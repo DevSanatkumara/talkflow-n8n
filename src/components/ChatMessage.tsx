@@ -1,7 +1,7 @@
 
 import { Message } from '@/types/chat';
 import { cn } from '@/lib/utils';
-import { Copy } from 'lucide-react';
+import { Copy, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -132,10 +132,18 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
           </div>
         </div>
         <div className="mt-2 flex justify-between items-center">
-          <span className="text-xs text-slate-500 dark:text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            {formattedTime}
-          </span>
-          {isAssistant && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 dark:text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              {formattedTime}
+            </span>
+            {message.isStreaming && (
+              <div className="flex items-center gap-1 text-xs text-blue-500">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                <span>печатает...</span>
+              </div>
+            )}
+          </div>
+          {isAssistant && !message.isStreaming && (
             <Button
               variant="ghost"
               size="sm"

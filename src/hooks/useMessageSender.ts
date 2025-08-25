@@ -8,6 +8,7 @@ import { handleApiResponse, handleApiError } from '@/utils/apiResponseHandler';
 import { prepareFileData } from '@/utils/fileOperations';
 import { toast } from "sonner";
 import { v4 as uuidv4 } from 'uuid';
+import { readN8nStreamSimple } from '@/utils/streamReader';
 
 export const useMessageSender = (
   updateSession: (sessionId: string, messages: Message[]) => void,
@@ -91,28 +92,63 @@ export const useMessageSender = (
         FETCH_TIMEOUT
       );
 
-      const responseData = await handleApiResponse(response);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      if (!responseData) {
-        throw new Error('Empty response from server');
-      }
-
-      const responseContent = extractResponseContent(responseData);
-
+      // Создаем сообщение ассистента с индикатором потока
       const assistantMessage: Message = {
         id: uuidv4(),
-        content: responseContent,
+        content: '',
         role: "assistant",
         timestamp: Date.now(),
+        isStreaming: true,
       };
 
-      const finalMessages = [...newMessages, assistantMessage];
-      updateSession(sessionId, finalMessages);
-      queryClient.setQueryData(['chatSessions', sessionId], finalMessages);
+      // Добавляем пустое сообщение ассистента для начала потокового вывода
+      const messagesWithAssistant = [...newMessages, assistantMessage];
+      updateSession(sessionId, messagesWithAssistant);
+      queryClient.setQueryData(['chatSessions', sessionId], messagesWithAssistant);
+
+      // Обрабатываем потоковый ответ от n8n
+      try {
+        const finalContent = await readN8nStreamSimple(response, (partialContent) => {
+          // Обновляем контент сообщения в реальном времени, сохраняя статус потока
+          const streamingMessage: Message = {
+            ...assistantMessage,
+            content: partialContent,
+            isStreaming: true,
+          };
+          const updatedMessages = [...newMessages, streamingMessage];
+          updateSession(sessionId, updatedMessages);
+          queryClient.setQueryData(['chatSessions', sessionId], updatedMessages);
+        });
+
+        // Финальное обновление - убираем индикатор потока
+        const finalMessage: Message = {
+          ...assistantMessage,
+          content: finalContent,
+          isStreaming: false,
+        };
+        const finalMessages = [...newMessages, finalMessage];
+        updateSession(sessionId, finalMessages);
+        queryClient.setQueryData(['chatSessions', sessionId], finalMessages);
+      } catch (streamError) {
+        console.error('Ошибка потокового чтения:', streamError);
+        
+        // Если потоковое чтение не удалось, попробуем обычный способ
+        const responseData = await handleApiResponse(response);
+        const responseContent = extractResponseContent(responseData);
+        
+        const fallbackMessage: Message = {
+          ...assistantMessage,
+          content: responseContent || 'Ошибка получения ответа от сервера',
+          isStreaming: false,
+        };
+        const fallbackMessages = [...newMessages, fallbackMessage];
+        updateSession(sessionId, fallbackMessages);
+        queryClient.setQueryData(['chatSessions', sessionId], fallbackMessages);
+      }
       
       console.log('Message sent successfully');
       return true;

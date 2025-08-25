@@ -13,14 +13,42 @@ interface ChatMessagesProps {
 
 export const ChatMessages = ({ messages, isTyping = false, onSourceLinkClick }: ChatMessagesProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = (immediate = false) => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: immediate ? "auto" : "smooth"
+    });
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Проверяем есть ли потоковые сообщения
+    const hasStreamingMessage = messages.some(msg => msg.isStreaming);
+    
+    if (hasStreamingMessage) {
+      // Для потоковых сообщений используем дебаунсинг, чтобы избежать постоянного скролла
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        scrollToBottom(false);
+      }, 100); // Скролл каждые 100мс максимум
+    } else {
+      // Для обычных сообщений скроллим сразу
+      scrollToBottom(false);
+    }
+
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, [messages]);
+
+  useEffect(() => {
+    // Скролл в конец при первой загрузке
+    scrollToBottom(true);
+  }, []);
 
   return (
     <ScrollArea 

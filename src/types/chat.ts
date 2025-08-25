@@ -8,6 +8,7 @@ export interface Message {
     mimeType: string;
     fileName: string;
   };
+  isStreaming?: boolean; // Индикатор потокового получения контента
 }
 
 export interface ChatSession {
