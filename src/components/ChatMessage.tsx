@@ -139,7 +139,7 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
             {message.isStreaming && (
               <div className="flex items-center gap-1 text-xs text-blue-500">
                 <Loader2 className="h-3 w-3 animate-spin" />
-                <span>печатает...</span>
+                <span>готовлю ответ...</span>
               </div>
             )}
           </div>

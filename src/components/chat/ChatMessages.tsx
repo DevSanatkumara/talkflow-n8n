@@ -50,12 +50,15 @@ export const ChatMessages = ({ messages, isTyping = false, onSourceLinkClick }: 
     scrollToBottom(true);
   }, []);
 
+  // Проверяем есть ли потоковые сообщения для скрытия общего индикатора
+  const hasStreamingMessage = messages.some(msg => msg.isStreaming);
+
   return (
-    <ScrollArea 
+    <ScrollArea
       className="h-full"
       style={{
         background: `
-          linear-gradient(to bottom, 
+          linear-gradient(to bottom,
             hsl(var(--background)) 0%,
             hsl(var(--muted)/0.1) 100%
           ),
@@ -73,7 +76,7 @@ export const ChatMessages = ({ messages, isTyping = false, onSourceLinkClick }: 
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} onSourceLinkClick={onSourceLinkClick} />
           ))}
-          {isTyping && (
+          {isTyping && !hasStreamingMessage && (
             <div className="flex items-center space-x-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span>Исследую Ваш вопрос...</span>
