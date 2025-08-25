@@ -184,3 +184,121 @@
 .dark .markdown-content .markdown-link:hover {
   color: #93c5fd;
 }
+
+/* Typewriter animation styles */
+.typewriter-container {
+  display: inline-block;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.typewriter-text {
+  display: inline;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Typing cursor animation - более плавное мигание */
+@keyframes typing-cursor-blink {
+  0%, 45% {
+    opacity: 1;
+  }
+  46%, 100% {
+    opacity: 0;
+  }
+}
+
+.typing-cursor {
+  display: inline-block;
+  color: #3b82f6;
+  font-weight: bold;
+  font-size: 1.1em;
+  animation: typing-cursor-blink 1.2s infinite;
+  margin-left: 1px;
+}
+
+/* Плавная анимация появления нового символа */
+.typewriter-text::after {
+  content: '';
+  animation: character-appear 0.1s ease-out;
+}
+
+@keyframes character-appear {
+  0% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Стили для темной темы */
+.dark .typing-cursor {
+  color: #60a5fa;
+}
+
+/* Улучшенная читаемость во время печати */
+.typewriter-container .markdown-content {
+  display: inline;
+}
+
+.typewriter-container .markdown-content p {
+  display: inline;
+  margin: 0;
+}
+
+.typewriter-container .markdown-content p + p {
+  margin-top: 1em;
+}
+
+/* Анимация для подготовки ответа */
+@keyframes preparing-dots {
+  0%, 20% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.preparing-answer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.preparing-answer .dot {
+  animation: preparing-dots 1.4s infinite;
+}
+
+.preparing-answer .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.preparing-answer .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Убираем анимации для пользователей с ограничениями */
+@media (prefers-reduced-motion: reduce) {
+  .typing-cursor {
+    animation: none !important;
+    opacity: 0.8;
+  }
+  
+  .typewriter-text::after,
+  .character-appear,
+  .preparing-dots {
+    animation: none !important;
+  }
+}

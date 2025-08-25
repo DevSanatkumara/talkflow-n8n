@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { MarkdownRenderer } from './chat/MarkdownRenderer';
+import { AnimatedStreamingText } from './chat/AnimatedStreamingText';
 import {
   Dialog,
   DialogContent,
@@ -127,7 +128,15 @@ export const ChatMessage = ({ message, onSourceLinkClick }: ChatMessageProps) =>
           )}
           <div className="overflow-x-auto">
             <div className="markdown-content break-words" onClick={handleMarkdownClick}>
-              <MarkdownRenderer content={message.content} />
+              {isAssistant ? (
+                <AnimatedStreamingText
+                  content={message.content}
+                  isStreaming={message.isStreaming || false}
+                  typingSpeed={50}
+                />
+              ) : (
+                <MarkdownRenderer content={message.content} />
+              )}
             </div>
           </div>
         </div>
