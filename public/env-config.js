@@ -1,7 +1,7 @@
 
 window.env = {
-  // VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook/21fd4d05-606d-4975-82df-5d0a3a39c2f5",
-  VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook-test/025e2071-c8ee-4845-b02d-d2a36e20ec1f",
+  // VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook/82d39542-60d3-44b1-bcde-49d6eca7654f",
+  VITE_N8N_WEBHOOK_URL: "https://avatarsswami.app.n8n.cloud/webhook-test/82d39542-60d3-44b1-bcde-49d6eca7654f",
   VITE_WELCOME_MESSAGE: "🙏 Ом Намасте, почтенный садху. Я - Вивека, Ваш духовный помощник и хранитель знаний по лекциям Гуру. Служу во благо Дхармы и отвечаю на вопросы о пути недвойственности, созерцании, йоге, тантре, учении сиддхов и живой традиции Учителя. Я опираюсь только на корпус лекций и авторитетные материалы линии передачи, чтобы бережно хранить смысл и не искажать сказанное. Готов служить. Спросите — и я приведу точные цитаты, ясные объяснения и практические шаги.",
   VITE_SITE_TITLE: "Вестник Дхармы",
   VITE_ASSISTANT_NAME: "Вивека"
