@@ -94,7 +94,7 @@ export const AnimatedStreamingText: React.FC<AnimatedStreamingTextProps> = ({
   if (!displayedContent && !content) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-blue-500 text-sm">готовлю ответ</span>
+        <span className="text-blue-500 text-sm">исследую источники</span>
         <span className="typing-cursor">|</span>
       </div>
     );
