@@ -32,19 +32,6 @@ export const CodeBlock = ({ language, children }: CodeBlockProps) => {
     }
   };
 
-  const handleCopyToPlayground = () => {
-    localStorage.setItem('playground-code', codeText);
-    // Map 'terraform' to 'hcl' for Monaco editor compatibility
-    const mappedLanguage = language.toLowerCase() === 'terraform' ? 'hcl' : language;
-    if (mappedLanguage) {
-      localStorage.setItem('playground-language', mappedLanguage);
-    }
-    navigate('/playground');
-    toast({
-      description: "Code copied to playground",
-      duration: 2000,
-    });
-  };
 
   return (
     <div className="relative my-6 group rounded-xl overflow-hidden shadow-lg transition-all duration-200 hover:shadow-xl border border-slate-200 dark:border-slate-800">
@@ -52,14 +39,6 @@ export const CodeBlock = ({ language, children }: CodeBlockProps) => {
         <span className="text-xs text-slate-600 dark:text-slate-400 font-mono px-2 py-1 rounded-md bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50">
           {language.toUpperCase()}
         </span>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-slate-200/80 dark:hover:bg-slate-700/80"
-          onClick={handleCopyToPlayground}
-        >
-          <PlayCircle className="h-4 w-4" />
-        </Button>
         <Button
           variant="ghost"
           size="icon"

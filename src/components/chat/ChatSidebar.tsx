@@ -92,14 +92,6 @@ export const ChatSidebar = ({
       )}
     >
       <div className="p-4 border-b flex flex-col gap-4">
-        {/* <Button 
-          onClick={() => navigate('/playground')} 
-          className="w-full flex items-center gap-2"
-          variant="outline"
-        >
-          <Code className="w-4 h-4" />
-          Code Playground
-        </Button> */}
         <Button onClick={onNewChat} className="w-full flex items-center gap-2">
           <PlusCircle className="w-4 h-4" />
            Новый чат
