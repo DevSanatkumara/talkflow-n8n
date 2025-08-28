@@ -54,7 +54,11 @@ const SignUp = () => {
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        if (err.message.includes("auth/email-already-in-use")) {
+          setError("Пользователь с таким email уже существует.");
+        } else {
+          setError(err.message);
+        }
       } else {
         setError("Произошла неизвестная ошибка.");
       }

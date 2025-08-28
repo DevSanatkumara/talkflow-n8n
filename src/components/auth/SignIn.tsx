@@ -53,7 +53,11 @@ const SignIn = () => {
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        if (err.message.includes("auth/invalid-credential")) {
+          setError("Неверный email или пароль.");
+        } else {
+          setError(err.message);
+        }
       } else {
         setError("Произошла неизвестная ошибка.");
       }
