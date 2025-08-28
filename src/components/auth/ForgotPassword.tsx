@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -59,9 +60,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Forgot Password</CardTitle>
+    <AuthLayout>
+      <Card className="mx-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">Forgot Password</CardTitle>
         <CardDescription>
           Enter your email and we will send you a link to reset your password.
         </CardDescription>
@@ -89,8 +91,9 @@ const ForgotPassword = () => {
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </AuthLayout>
   );
 };
 

@@ -25,6 +25,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -63,9 +64,10 @@ const SignUp = () => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Sign Up</CardTitle>
+    <AuthLayout>
+      <Card className="mx-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
         <CardDescription>
           Enter your email below to create your account
         </CardDescription>
@@ -105,8 +107,9 @@ const SignUp = () => {
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </AuthLayout>
   );
 };
 

@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -62,9 +63,10 @@ const SignIn = () => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+    <AuthLayout>
+      <Card className="mx-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
@@ -121,8 +123,9 @@ const SignIn = () => {
             Sign up
           </Link>
         </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </AuthLayout>
   );
 };
 
