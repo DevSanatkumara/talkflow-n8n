@@ -112,9 +112,9 @@ const SignIn = () => {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Вход..." : "Войти"}
             </Button>
-            <Button variant="outline" className="w-full" asChild>
-              <Link to="/sign-up">Зарегистрироваться</Link>
-            </Button>
+            {/* <Button variant="outline" className="w-full" asChild> */}
+              {/* <Link to="/sign-up">Зарегистрироваться</Link> */}
+            {/* </Button> */}
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
