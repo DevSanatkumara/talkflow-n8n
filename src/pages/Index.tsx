@@ -24,14 +24,6 @@ const Index = () => {
 
   return (
     <div className="relative">
-      <header className="absolute top-4 right-4 flex items-center gap-4">
-        {currentUser && (
-          <>
-            <span>{currentUser.email}</span>
-            <Button onClick={logOut}>Log Out</Button>
-          </>
-        )}
-      </header>
       <ChatLayout
         sessions={sessions}
         currentSessionId={currentSessionId}

@@ -9,6 +9,9 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ChatSidebarProps {
   sessions: ChatSession[];
@@ -33,7 +36,14 @@ export const ChatSidebar = ({
 }: ChatSidebarProps) => {
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
+  const { currentUser } = useAuthContext();
+  const { logOut } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logOut();
+    navigate('/sign-in');
+  };
 
   const getFirstMessage = (messages: ChatSession["messages"]) => {
     const userMessage = messages.find(m => m.role === "user");
@@ -173,6 +183,18 @@ export const ChatSidebar = ({
           ))}
         </div>
       </ScrollArea>
+      <div className="p-4 border-t">
+        {currentUser && (
+          <div className="flex items-center gap-4">
+            <div className="flex-1 truncate">
+              <p className="text-sm font-medium truncate">{currentUser.email}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
