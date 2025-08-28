@@ -27,8 +27,8 @@ import { Link } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(1, { message: "Password is required." }),
+  email: z.string().email({ message: "Неверный формат электронной почты." }),
+  password: z.string().min(1, { message: "Пароль не может быть пустым." }),
 });
 
 const SignIn = () => {
@@ -55,7 +55,7 @@ const SignIn = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unknown error occurred.");
+        setError("Произошла неизвестная ошибка.");
       }
     } finally {
       setLoading(false);
@@ -66,10 +66,10 @@ const SignIn = () => {
     <AuthLayout>
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+          <CardTitle className="text-2xl">Вход</CardTitle>
+          <CardDescription>
+            Введите свою электронную почту ниже, чтобы войти в свой аккаунт
+          </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -79,9 +79,9 @@ const SignIn = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Электронная почта</FormLabel>
                   <FormControl>
-                    <Input placeholder="m@example.com" {...field} />
+                    <Input placeholder="name@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,12 +93,12 @@ const SignIn = () => {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Пароль</FormLabel>
                     <Link
                       to="/forgot-password"
                       className="ml-auto inline-block text-sm underline"
                     >
-                      Forgot your password?
+                      Забыли пароль?
                     </Link>
                   </div>
                   <FormControl>
@@ -110,17 +110,17 @@ const SignIn = () => {
             />
             {error && <p className="text-red-500">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Вход..." : "Войти"}
             </Button>
             <Button variant="outline" className="w-full" asChild>
-              <Link to="/sign-up">Sign up</Link>
+              <Link to="/sign-up">Зарегистрироваться</Link>
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
-          Don't have an account?{" "}
+          Нет аккаунта?{" "}
           <Link to="/sign-up" className="underline">
-            Sign up
+            Зарегистрируйтесь
           </Link>
         </div>
         </CardContent>

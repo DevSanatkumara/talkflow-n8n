@@ -28,8 +28,8 @@ import {
 import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  email: z.string().email({ message: "Неверный формат электронной почты." }),
+  password: z.string().min(6, { message: "Пароль должен содержать не менее 6 символов." }),
 });
 
 const SignUp = () => {
@@ -56,7 +56,7 @@ const SignUp = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unknown error occurred.");
+        setError("Произошла неизвестная ошибка.");
       }
     } finally {
       setLoading(false);
@@ -67,10 +67,10 @@ const SignUp = () => {
     <AuthLayout>
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Sign Up</CardTitle>
-        <CardDescription>
-          Enter your email below to create your account
-        </CardDescription>
+          <CardTitle className="text-2xl">Регистрация</CardTitle>
+          <CardDescription>
+            Введите свою электронную почту ниже, чтобы создать аккаунт
+          </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -80,9 +80,9 @@ const SignUp = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Электронная почта</FormLabel>
                   <FormControl>
-                    <Input placeholder="m@example.com" {...field} />
+                    <Input placeholder="name@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,7 +93,7 @@ const SignUp = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -103,7 +103,7 @@ const SignUp = () => {
             />
             {error && <p className="text-red-500">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing Up..." : "Sign Up"}
+              {loading ? "Регистрация..." : "Зарегистрироваться"}
             </Button>
           </form>
         </Form>

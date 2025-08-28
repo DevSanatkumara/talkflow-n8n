@@ -25,7 +25,7 @@ import {
 import AuthLayout from "./AuthLayout";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
+  email: z.string().email({ message: "Неверный формат электронной почты." }),
 });
 
 const ForgotPassword = () => {
@@ -47,12 +47,12 @@ const ForgotPassword = () => {
       setError("");
       setLoading(true);
       await resetPassword(values.email);
-      setMessage("Check your inbox for further instructions.");
+      setMessage("Проверьте свою почту для дальнейших инструкций.");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unknown error occurred.");
+        setError("Произошла неизвестная ошибка.");
       }
     } finally {
       setLoading(false);
@@ -63,10 +63,10 @@ const ForgotPassword = () => {
     <AuthLayout>
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Forgot Password</CardTitle>
-        <CardDescription>
-          Enter your email and we will send you a link to reset your password.
-        </CardDescription>
+          <CardTitle className="text-2xl">Забыли пароль?</CardTitle>
+          <CardDescription>
+            Введите свою электронную почту, и мы вышлем вам ссылку для сброса пароля.
+          </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -76,9 +76,9 @@ const ForgotPassword = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Электронная почта</FormLabel>
                   <FormControl>
-                    <Input placeholder="m@example.com" {...field} />
+                    <Input placeholder="name@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,7 +87,7 @@ const ForgotPassword = () => {
             {error && <p className="text-red-500">{error}</p>}
             {message && <p className="text-green-500">{message}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Sending..." : "Send Reset Link"}
+              {loading ? "Отправка..." : "Отправить ссылку для сброса"}
             </Button>
           </form>
         </Form>
