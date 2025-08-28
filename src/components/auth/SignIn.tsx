@@ -110,8 +110,17 @@ const SignIn = () => {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/sign-up">Sign up</Link>
+            </Button>
           </form>
         </Form>
+        <div className="mt-4 text-center text-sm">
+          Don't have an account?{" "}
+          <Link to="/sign-up" className="underline">
+            Sign up
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );
