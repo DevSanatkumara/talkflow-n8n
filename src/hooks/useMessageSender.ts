@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { Message } from '@/types/chat';
 import { fetchWithTimeout, FETCH_TIMEOUT } from '@/utils/fetchWithTimeout';
 import { extractResponseContent } from '@/utils/responseHandler';
@@ -17,6 +18,7 @@ export const useMessageSender = (
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
+  const { currentUser } = useAuthContext();
   const sendMessage = async (
     input: string,
     sessionId: string,
@@ -26,6 +28,7 @@ export const useMessageSender = (
     const effectiveWebhookUrl = window.env?.VITE_N8N_WEBHOOK_URL || import.meta.env.VITE_N8N_WEBHOOK_URL;
     const username = window.env?.VITE_N8N_WEBHOOK_USERNAME || import.meta.env.VITE_N8N_WEBHOOK_USERNAME;
     const secret = window.env?.VITE_N8N_WEBHOOK_SECRET || import.meta.env.VITE_N8N_WEBHOOK_SECRET;
+    const userEmail = currentUser?.email
 
     if (!effectiveWebhookUrl) {
       toast.error("Configuration error: No webhook URL available");
@@ -82,6 +85,7 @@ export const useMessageSender = (
           body: JSON.stringify({
             chatInput: input,
             sessionId: sessionId,
+            userEmail: userEmail,
             ...(fileData && {
               data: fileData.data,
               mimeType: fileData.mimeType,
